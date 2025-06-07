@@ -1,0 +1,12 @@
+# Data, models, outputs
+data/
+output/
+*.pt
+*.mp4
+*.log
+test_source/
+
+# 환경 설정
+.env
+__pycache__/
+*.pyc
