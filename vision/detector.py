@@ -3,18 +3,18 @@ import cv2
 from ultralytics import YOLO
 
 # 모델 로드
-model = YOLO('runs/detect/aquila_v8n_epoch100/weights/best.pt')
+model = YOLO('vision/runs/detect/aquila_v8n_bs160/weights/best.pt')
 
 # 입력 영상 열기
 fname = "raw_video6"
-input_path = f'../test_source/{fname}.mp4'
+input_path = f'test_source/{fname}.mp4'
 cap = cv2.VideoCapture(input_path)
 
 # 출력 영상 설정 (640x640으로 고정)
 fourcc = cv2.VideoWriter_fourcc(*'mp4v')
 fps = cap.get(cv2.CAP_PROP_FPS)
 output_size = (640, 640)
-out = cv2.VideoWriter(f'../output/output_detected_{fname}.mp4', fourcc, fps, output_size)
+out = cv2.VideoWriter(f'output/output_detected_{fname}.mp4', fourcc, fps, output_size)
 
 # 프레임 처리 루프
 while cap.isOpened():
@@ -42,11 +42,15 @@ while cap.isOpened():
 
     # 결과 저장
     out.write(annotated)
+    cv2.imshow("Aquila Detection", annotated)
     elapsed_time = time.time() - start_time
     delay = max(1.0 / fps - elapsed_time, 0)
     time.sleep(delay)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
 
 # 종료 처리
 cap.release()
 out.release()
+cv2.destroyAllWindows()
 print(f"처리 완료! 결과 영상: output_detected_{fname}.mp4")
