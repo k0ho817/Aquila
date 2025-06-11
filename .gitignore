@@ -4,6 +4,7 @@ output/
 *.mp4
 *.log
 test_source/
+*.zip
 
 # 환경 설정
 .env
