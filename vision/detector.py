@@ -1,3 +1,4 @@
+import time
 import cv2
 from ultralytics import YOLO
 
@@ -5,7 +6,7 @@ from ultralytics import YOLO
 model = YOLO('runs/detect/aquila_v8n_epoch100/weights/best.pt')
 
 # 입력 영상 열기
-fname = "raw_video2"
+fname = "raw_video6"
 input_path = f'../test_source/{fname}.mp4'
 cap = cv2.VideoCapture(input_path)
 
@@ -17,6 +18,7 @@ out = cv2.VideoWriter(f'../output/output_detected_{fname}.mp4', fourcc, fps, out
 
 # 프레임 처리 루프
 while cap.isOpened():
+    start_time = time.time()
     ret, frame = cap.read()
     if not ret:
         break
@@ -31,7 +33,7 @@ while cap.isOpened():
         conf = float(box.conf[0])
         xyxy = box.xyxy[0].cpu().numpy().astype(int)
 
-        if cls_id == 0:  # class 0 = person
+        if model.names[cls_id] == 'person':
             x1, y1, x2, y2 = xyxy
             label = f'person {conf:.2f}'
             cv2.rectangle(annotated, (x1, y1), (x2, y2), (0, 255, 0), 2)
@@ -40,6 +42,9 @@ while cap.isOpened():
 
     # 결과 저장
     out.write(annotated)
+    elapsed_time = time.time() - start_time
+    delay = max(1.0 / fps - elapsed_time, 0)
+    time.sleep(delay)
 
 # 종료 처리
 cap.release()
