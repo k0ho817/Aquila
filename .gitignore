@@ -1,7 +1,6 @@
 # Data, models, outputs
 data/
 output/
-*.pt
 *.mp4
 *.log
 test_source/
