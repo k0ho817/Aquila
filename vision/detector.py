@@ -12,7 +12,7 @@ cap = cv2.VideoCapture(input_path)
 
 # 출력 영상 설정 (640x640으로 고정)
 fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-fps = cap.get(cv2.CAP_PROP_FPS)
+fps = 15  # 고정된 FPS로 재생
 output_size = (640, 640)
 out = cv2.VideoWriter(f'output/output_detected_{fname}.mp4', fourcc, fps, output_size)
 
@@ -22,7 +22,9 @@ while cap.isOpened():
     ret, frame = cap.read()
     if not ret:
         break
-
+    current_frame = int(cap.get(cv2.CAP_PROP_POS_FRAMES))
+    if current_frame % int(cap.get(cv2.CAP_PROP_FPS) // fps) != 0:
+        continue  # 15fps에 맞춰 필요한 프레임만 처리
     resized_frame = cv2.resize(frame, output_size)
     results = model(resized_frame, imgsz=640, conf=0.4)
 
@@ -43,9 +45,10 @@ while cap.isOpened():
     # 결과 저장
     out.write(annotated)
     cv2.imshow("Aquila Detection", annotated)
-    elapsed_time = time.time() - start_time
-    delay = max(1.0 / fps - elapsed_time, 0)
-    time.sleep(delay)
+    # elapsed = time.time() - start_time
+    # sleep_time = (1.0 / fps) - elapsed
+    # if sleep_time > 0:
+    #     time.sleep(sleep_time)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
