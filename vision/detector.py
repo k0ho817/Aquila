@@ -3,7 +3,7 @@ import cv2
 from ultralytics import YOLO
 
 # 모델 로드
-model = YOLO('vision/runs/detect/aquila_v8n_bs160/weights/best.pt')
+model = YOLO('vision/runs/detect/aquila_v8s_epoch100_pt103/weights/best.pt')
 
 # 입력 영상 열기
 fname = "raw_video6"
@@ -24,7 +24,7 @@ while cap.isOpened():
         break
 
     resized_frame = cv2.resize(frame, output_size)
-    results = model(resized_frame, imgsz=640, conf=0.4)
+    results = model(resized_frame, imgsz=640, conf=0.25)
 
     # 원본 프레임 복사 후 사람만 바운딩박스 시각화
     annotated = resized_frame.copy()
