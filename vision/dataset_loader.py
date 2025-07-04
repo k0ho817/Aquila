@@ -16,7 +16,7 @@ dataset index
 # custom dataset
 def cust_data():
     project = rf.workspace("korea-national-university-of-transportation-ifxep").project("aquila-sy18i")
-    version = project.version(1)
+    version = project.version(2)
     dataset = version.download("yolov8", location="../data")
 
 # roboflow dataset1
