@@ -3,10 +3,10 @@ import cv2
 from ultralytics import YOLO
 
 # 모델 로드
-model = YOLO('vision/runs/detect/aquila_v8n_epoch100_pt10/weights/best.pt')
+model = YOLO('/Users/mungyeongho/Documents/study/KNUT25/캡스톤디자인/Aquila/vision/runs/detect/aquila_v8n_epoch100_2gpu_3090/weights/best.pt')
 
 # 입력 영상 열기
-fname = "raw_video_drone2"
+fname = "raw_video_drone1"
 input_path = f'test_source/{fname}.mp4'
 cap = cv2.VideoCapture(input_path)
 
