@@ -16,14 +16,14 @@ dataset index
 # custom dataset
 def cust_data():
     project = rf.workspace("korea-national-university-of-transportation-ifxep").project("aquila-sy18i")
-    version = project.version(1)
-    dataset = version.download("yolov8", location="../data")
+    version = project.version(2)
+    dataset = version.download("yolov8", location="/home/mkh99/Aquila/data")
 
 # roboflow dataset1
 def robo_data1():
     project = rf.workspace("learn-j9wwx").project("yolov11-70iwr")
     version = project.version(1)
-    dataset = version.download("yolov8", location="../data")
+    dataset = version.download("yolov8", location="/home/mkh99/Aquila/data")
 
 def load_dataset(dataset_num):
     if dataset_num == 0:
